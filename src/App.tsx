@@ -5,6 +5,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Switch } from '@/components/ui/switch';
 import { Bell, Check, Info } from 'lucide-react';
 
+import './App.css';
+
+
+
 function App() {
     const [isEnabled, setIsEnabled] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
