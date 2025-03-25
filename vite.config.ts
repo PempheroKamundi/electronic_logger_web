@@ -17,7 +17,7 @@ export default defineConfig({
   preview: {
     host: true,
     port: parseInt(process.env.PORT || '4173'),
-    // Allow Railway's health check service to access the server
-    allowedHosts: ['healthcheck.railway.app', 'all']
+    // Allow Railway's health check service and your app domain to access the server
+    allowedHosts: ['healthcheck.railway.app', 'web-production-03ad.up.railway.app', '.railway.app', 'all']
   }
 })
