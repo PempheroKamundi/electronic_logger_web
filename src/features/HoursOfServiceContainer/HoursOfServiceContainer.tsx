@@ -9,6 +9,7 @@ import {
 import HoursOfServiceGraph from '@/features/HoursOfServiceGraph/HoursOfServiceGraph.tsx'
 import { RouteData } from '@/core/hooks/useRouteData.ts'
 import { TruckerLog, useProcessLogs } from '@/core/hooks/useProcessLogs.ts'
+import { useGeocoding } from '@/core/hooks/useGeocoding.ts'
 
 interface HoursOfServiceContainerProps {
     routeData?: RouteData
@@ -27,18 +28,30 @@ const HoursOfServiceContainer = ({
         error: processLogsError,
     } = useProcessLogs(routeData ? [routeData] : [], isLoadingRoute)
 
+    const { getLocationName, geocodeResults } = useGeocoding()
+
     useEffect(() => {
         setActiveGraphIndex(0)
     }, [truckerLogs])
 
-    const printCurrentGraph = () => {
-        window.print()
-        console.log(`Printing graph ${activeGraphIndex + 1}`)
-    }
+    useEffect(() => {
+        if (truckerLogs && truckerLogs.length > 0) {
+            const uniqueCoords = new Set<string>()
 
-    const printAllGraphs = () => {
-        window.print()
-        console.log('Printing all graphs')
+            truckerLogs.forEach((log) => {
+                if (log.from) uniqueCoords.add(JSON.stringify(log.from))
+                if (log.to) uniqueCoords.add(JSON.stringify(log.to))
+            })
+
+            Array.from(uniqueCoords).forEach((coordStr) => {
+                const coords = JSON.parse(coordStr) as [number, number]
+                getLocationName(coords)
+            })
+        }
+    }, [truckerLogs, getLocationName])
+
+    const printCurrentGraph = () => {
+        window.alert('UpComing Feature, not yet implemented')
     }
 
     const nextGraph = () => {
@@ -56,8 +69,13 @@ const HoursOfServiceContainer = ({
     const getLocationFromCoords = (coords: [number, number] | undefined) => {
         if (!coords || coords.length < 2) return 'Unknown'
 
-        // In a real implementation, you would use reverse geocoding
-        // For now, just show coordinates in a friendly format
+        const key = `${coords[0].toFixed(4)},${coords[1].toFixed(4)}`
+        const result = geocodeResults[key]
+
+        if (result && !result.isLoading) {
+            return result.location
+        }
+
         return `${coords[0].toFixed(2)}°N, ${Math.abs(coords[1]).toFixed(2)}°W`
     }
 
@@ -119,12 +137,6 @@ const HoursOfServiceContainer = ({
                     <h2 className="text-xl font-bold text-red-800">
                         Truck Driver Hours of Service Log
                     </h2>
-                    <button
-                        onClick={printAllGraphs}
-                        className="bg-red-600 text-white px-4 py-2 rounded flex items-center hover:bg-red-700"
-                    >
-                        <Printer size={18} className="mr-2" /> Print All Logs
-                    </button>
                 </div>
 
                 {truckerLogs.length > 1 && (

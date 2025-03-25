@@ -38,6 +38,8 @@ export interface RouteRequest {
     pickup_location: Location
     drop_off_location: Location
     current_cycle_used: number
+    start_time: string // ISO date string format
+    timezone_offset_minutes: number
 }
 
 export class RouteError extends Error {
