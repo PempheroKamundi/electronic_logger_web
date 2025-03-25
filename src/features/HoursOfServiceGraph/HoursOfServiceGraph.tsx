@@ -14,14 +14,21 @@ interface HoursOfServiceGraphProps {
 }
 
 const HoursOfServiceGraph: React.FC<HoursOfServiceGraphProps> = ({
-    driverActivities,
-    width = 1100,
-    height = 500,
-    title = 'Truck Driver Hours of Service Log',
-    subtitle = 'Standard HOS Pattern: 14-hour duty window, 11 hours driving, 10 hours rest',
-}) => {
+                                                                     driverActivities,
+                                                                     width = 1100,
+                                                                     height = 500,
+                                                                     title = 'Truck Driver Hours of Service Log',
+                                                                     subtitle = 'Standard HOS Pattern: 14-hour duty window, 11 hours driving, 10 hours rest',
+                                                                 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [currentTime, setCurrentTime] = useState<string>('')
+
+    // Add a state for responsive dimensions
+    const [dimensions, setDimensions] = useState({
+        width: width,
+        height: height
+    })
+
     useEffect(() => {
         const updateCurrentTime = () => {
             const now = new Date()
@@ -61,11 +68,11 @@ const HoursOfServiceGraph: React.FC<HoursOfServiceGraphProps> = ({
             activities
         )
         renderer.render()
-    }, [driverActivities])
+    }, [driverActivities, dimensions])
 
     return (
         <div className="bg-gray-100 p-5">
-            <div className="max-w-6xl mx-auto border-2 border-dashed border-gray-700 p-4 bg-white">
+            <div className="border-2 border-dashed border-gray-700 p-4 bg-white" style={{ minWidth: width }}>
                 <h2 className="text-center mt-0 mb-5 text-xl font-bold">
                     {title}
                 </h2>
@@ -77,8 +84,8 @@ const HoursOfServiceGraph: React.FC<HoursOfServiceGraphProps> = ({
                 <div className="text-center mb-5 text-sm">{subtitle}</div>
                 <canvas
                     ref={canvasRef}
-                    width={width}
-                    height={height}
+                    width={dimensions.width}
+                    height={dimensions.height}
                     className="border border-gray-400 block mx-auto"
                 />
             </div>

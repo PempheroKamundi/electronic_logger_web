@@ -17,9 +17,9 @@ interface HoursOfServiceContainerProps {
 }
 
 const HoursOfServiceContainer = ({
-    routeData,
-    isLoadingRoute = false,
-}: HoursOfServiceContainerProps) => {
+                                     routeData,
+                                     isLoadingRoute = false,
+                                 }: HoursOfServiceContainerProps) => {
     const [activeGraphIndex, setActiveGraphIndex] = useState(0)
 
     const {
@@ -173,8 +173,8 @@ const HoursOfServiceContainer = ({
                     </div>
                 )}
 
-                <div className="bg-white p-3 rounded flex justify-between items-center mb-4 border border-red-200">
-                    <div>
+                <div className="bg-white p-3 rounded flex justify-between items-center mb-4 border border-red-200 overflow-x-auto">
+                    <div className="whitespace-nowrap">
                         <span className="font-medium text-red-800">Date: </span>
                         <span className="text-gray-800">{activeLog.date}</span>
                         <span className="mx-4 text-red-300">|</span>
@@ -195,7 +195,7 @@ const HoursOfServiceContainer = ({
 
                     <button
                         onClick={printCurrentGraph}
-                        className="bg-red-600 text-white px-3 py-1 rounded flex items-center hover:bg-red-700"
+                        className="bg-red-600 text-white px-3 py-1 rounded flex items-center hover:bg-red-700 whitespace-nowrap ml-4"
                     >
                         <Printer size={16} className="mr-1" /> Print This Log
                     </button>
@@ -210,9 +210,11 @@ const HoursOfServiceContainer = ({
                     </p>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
                     <HoursOfServiceGraph
                         driverActivities={activeLog.log}
+                        width={1100}
+                        height={500}
                         title={`Truck Driver Hours of Service Log - ${activeLog.date}`}
                         subtitle={`Route: ${startLocation} to ${endLocation} (${activeLog.total_miles_driving.toFixed(1)} miles)`}
                     />
