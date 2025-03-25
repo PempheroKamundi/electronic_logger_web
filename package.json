@@ -7,10 +7,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
-
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
