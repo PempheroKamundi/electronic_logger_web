@@ -11,16 +11,13 @@ export default defineConfig({
     },
   },
   server: {
-    // Allow connections from any host in development
-    // (useful for testing with mobile devices on the same network)
     host: true,
-    // Use PORT env variable if provided, otherwise use 5173
     port: parseInt(process.env.PORT || '5173')
   },
   preview: {
-    // Allow preview server to bind to all network interfaces
     host: true,
-    // Use PORT env variable provided by Railway
-    port: parseInt(process.env.PORT || '4173')
+    port: parseInt(process.env.PORT || '4173'),
+    // Allow Railway's health check service to access the server
+    allowedHosts: ['healthcheck.railway.app', 'all']
   }
 })
