@@ -100,7 +100,7 @@ export const useRouteData = (): UseRouteDataReturn => {
 
             try {
                 const response = await fetch(
-                    'http://localhost:8000/planner/api/trips/',
+                    `${import.meta.env.VITE_MAIN_SITE_URL}/planner/api/trips/`,
                     {
                         method: 'POST',
                         headers: {
