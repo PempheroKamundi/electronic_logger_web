@@ -1,0 +1,19 @@
+# Ignore development files
+.git
+node_modules
+.github
+.vscode
+
+# Ignore test files
+**/*.test.*
+**/*.spec.*
+vitest.config.*
+
+# Ignore documentation
+*.md
+LICENSE
+
+# Ignore environment files
+.env
+.env.*
+!.env.production
