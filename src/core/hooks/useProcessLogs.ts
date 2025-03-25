@@ -35,7 +35,7 @@ export const useProcessLogs = (route_data: RouteData[], isLoading: boolean) => {
 
             try {
                 const response = await fetch(
-                    'http://localhost:8000/planner/api/process-logs/',
+                    `${import.meta.env.VITE_MAIN_SITE_URL}/planner/api/process-logs/`,
                     {
                         method: 'POST',
                         headers: {

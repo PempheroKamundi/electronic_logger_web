@@ -58,6 +58,8 @@ const MainLayout = (): ReactElement => {
                 longitude: formData.dropoffLocationCoords?.lng ?? 0,
             },
             current_cycle_used: parseInt(formData.currentCycleUsed || '0', 10),
+            start_time: new Date().toISOString(),
+            timezone_offset_minutes: -new Date().getTimezoneOffset(),
         }
 
         await fetchRoute(routeRequest)
